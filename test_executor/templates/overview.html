@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link type="text/css" rel="stylesheet" href="{% static "css/overview.css" %}">
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static "angular-bootstrap/ui-bootstrap.min.js" %}"></script>
+  <script src="{% static "angular-bootstrap/ui-bootstrap-tpls.min.js" %}"></script>
+
+  <script src="{% static "js/app.js" %}"></script>
+  <script src="{% static "js/run.ajax.js" %}"></script>
+  <script src="{% static "js/run.data.js" %}"></script>
+  <script src="{% static "js/user.ajax.js" %}"></script>
+  <script src="{% static "js/user.data.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<div ng-app="testRun" ng-controller="AppController as ctrl">
+  <!-- Info Button -->
+  <button id="info" class="btn btn-default pull-right" ng-click="ctrl.info()">
+    <span class="glyphicon glyphicon-info-sign"></span>
+  </button>
+
+  <!-- Input Form -->
+  <h2>Test Execution Requests</h2>
+  <form ng-submit="ctrl.submit()">
+      Test Environment (1-100) :
+      <input class="form-control" type="number" ng-model="environment_id" min="1" max="100" required>
+
+      Requester:
+      <select class="form-control"
+              ng-model="selectedUser"
+              ng-options="user.full_name for user in list_of_users">
+      </select>
+
+      <button type="submit" class="btn btn-default btn-md">
+        <span class="glyphicon glyphicon-flash"></span> Submit!
+      </button>
+  </form>
+
+  <!-- Message Panel -->
+  <div class="message alert" ng-class="{'alert-danger': error_occured, 'alert-success': !error_occured}"
+                             ng-model="ctrl.message"
+                             ng-show="message">
+    {% verbatim %}
+      {{ message }}
+    {% endverbatim %}
+  </div>
+
+  <!-- Panel to display the test run results -->
+  <div class="clear"></div>
+  {% verbatim %}
+  <div class="result-panel" ng-hide="loading">
+    <table class="overview">
+      <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>Requester</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Test Environment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="run in list_of_runs" ng-class="{'alert-warning': run.status == 2,
+                                                       'alert-danger': run.status == 1,
+                                                       'alert-success': run.status == 0}">
+          <td>
+             <a class="detail" href="/test_executor/runs/{{ run.id }}/">{{ run.id }}</a>
+          </td>
+          <td>
+            {{ users.get_full_name_by_id(run.requester) }}
+          </td>
+          <td>
+            {{ run.start_time | date:'yyyy-MM-dd HH:mm:ss' }}
+          </td>
+          <td>
+            {{ run.end_time | date:'yyyy-MM-dd HH:mm:ss' }}
+          </td>
+          <td>
+            {{ run.environment_id }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {% endverbatim %}
+
+  <!-- Interface Information Modal -->
+  {% include "info.html" %}
+
+</div><!-- app -->
+{% endblock %}

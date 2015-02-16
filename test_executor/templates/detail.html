@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static test_executor %}
+
+{% block extra_css %}
+    <link type="text/css" rel="stylesheet" href="{% static "css/detail.css" %}">
+{% endblock %}
+
+{% block content %}
+{% if run %}
+<a href="{% url 'test_execution_overview' %}">Back to the Test Execution Overview</a>
+<h2>Details - Test Execution: {{ run.id }}</h2>
+
+<dl class="dl-horizontal">
+    <dt>ID</dt><dd>{{ run.id }}</dd>
+    <dt>Environment ID</dt><dd>{{ run.environment_id }}</dd>
+    <dt>Requester</dt><dd>{{ run.requester }}</dd>
+    <dt>Start Time</dt><dd>{{ run.start_time|date:"d.m.Y H:i:s" }}</dd>
+    <dt>End Time</dt><dd>{{ run.end_time|date:"d.m.Y H:i:s" }}</dd>
+    <dt>Status</dt><dd>{{ run.status|as_string }}</dd>
+    <dt>Output</dt>
+    <dd>
+        <div class="bash">
+            {{ run.output|as_html|safe }}
+        </div>
+    </dd>
+    <dt>Used Files</dt>
+    <dd>
+        {% for test in run.test_set.all %}
+            {{ test.file_name }}<br>
+        {% empty %}
+            No files available
+        {% endfor %}
+    </dd>
+</dl>
+{% else %}
+    No details available for this test execution.
+{% endif %}
+{% endblock %}

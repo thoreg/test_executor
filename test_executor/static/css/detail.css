@@ -1,0 +1,16 @@
+dt, dd {
+    padding: 0.5em;
+}
+
+pre {
+    color: #dddddd!important;
+    background-color: #000!important;
+}
+
+.body_background {
+    background-color: #fff!important;
+}
+
+.body_foreground {
+    color: #000!important;
+}
