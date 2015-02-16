@@ -1,1 +1,38 @@
-:)
+{% load static %}
+<script type="text/ng-template" id="info.html">
+    <div class="modal-header">
+        <h3 class="modal-title">How to use this interface?</h3>
+    </div>
+    <div class="modal-body">
+        <ol>
+            <li>Enter an environment id</li>
+            <li>Choose a user as the requester</li>
+            <li>Submit the form</li>
+        </ol>
+
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="10" fill="red" />
+        </svg>
+        <p class="pull-rigt">
+            The red background color means that at least one of the tests FAILed.
+        </p>
+
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="10" fill="yellow" />
+        </svg>
+        <p class="pull-rigt">
+            The yellow background color means that the test execution is running.
+        </p>
+
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="10" fill="#00ff40" />
+        </svg>
+        <p class="pull-rigt">
+            The green background color means that all of the tests PASSed.
+        </p>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+  </div>
+</script>
