@@ -8,3 +8,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 )
+                       url(r'^api/test_executor/', include('test_executor.urls.api')),
+                       url('^test_executor', include('test_executor.urls.ui')),
