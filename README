@@ -1,0 +1,66 @@
+
+#
+# Test Executor
+# =============
+#
+
+# Installation of the virtual environment
+# ---------------------------------------
+#
+# The following statements assume that you work with pyenv and pyenv-virtualenv [1][2].
+# [1] https://github.com/yyuu/pyenv
+# [2] https://github.com/yyuu/pyenv-virtualenv
+#
+# Install python in version 3.4.2
+pyenv install 3.4.2
+#
+# Install a virtual environment called 'test_executor' which uses the python version 3.4.2
+pyenv virtualenv 3.4.2 test_executor
+#
+# Change into the virtual environment 'test_executor'
+pyenv activate test_executor
+#
+# Install readline and required packages
+easy_install readline
+pip install -r requirements.txt
+# If this statement fails, check the version of pip - if needed upgrade the version of pip
+# pip install --upgrade pip
+#
+# Install packages which are required by the frontend
+python manage.py bower_install
+#
+# Ready :)
+#
+
+# Installation of the Redis server
+# --------------------------------
+#
+# The test execution application uses Redis as broker for its asynchronous task queue. Please
+# install a redis server and keep it running. Otherwise the test_executor application can not
+# be used.
+#
+# Install command example Fedora 20
+sudo yum install redis
+#
+# Start the Redis service on your host
+sudo service redis start
+#
+# Check if Redis is up and accepting connections
+$ redis-cli ping
+PONG
+
+# Start celery worker
+# -------------------
+#
+# The test_executor application uses a celery task for execution of unit tests. Change to the
+# project directory (the directory with the 'manage.py' file) and start the celery worker.
+# Change into the virtual environment (pyenv activate test_executor) and run the following command:
+celery -A pb worker -l info
+# Keep that shell open or put the task to the background
+
+# Start the development server
+# ----------------------------
+#
+# Change to the project directory and run the django development server
+python manage.py syncdb
+python manage.py runserver
