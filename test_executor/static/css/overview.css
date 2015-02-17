@@ -1,9 +1,13 @@
-input.ng-invalid {
-    border: 1px solid red;
+input.ng-invalid, select.ng-invalid {
+    border: 2px solid red;
 }
 
-input.ng-valid {
-    border: 1px solid green;
+input.ng-valid, select.ng-valid {
+    border: 2px solid green;
+}
+
+input.ng-pristine, select.ng-pristine {
+    border: 1px solid #ccc
 }
 
 table {
