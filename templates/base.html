@@ -3,6 +3,8 @@
 <html lang="de">
     <head>
         <meta charset="utf-8">
+        <!-- avoid 404 on favicon request -->
+        <link rel="shortcut icon" href="#" />
         <title>{{ title|default:"Test Executer" }}</title>
         <link href="{% static "bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
         <link href="{% static "css/base.css" %}" rel="stylesheet">
